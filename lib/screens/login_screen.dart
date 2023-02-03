@@ -7,9 +7,12 @@ import 'package:login_sigup/widgets/buttons/button.dart';
 import 'package:login_sigup/widgets/cards/card_form.dart';
 import 'package:login_sigup/widgets/lists/better_list_view.dart';
 import 'package:login_sigup/widgets/waiting_result.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../const/coments.dart';
 import '../const/reg_exp.dart';
 import 'package:http/http.dart' as http;
+
+late SharedPreferences prefs;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,6 +26,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfLoggedIn();
+  }
 
   @override
   void dispose() {
@@ -124,8 +133,27 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _checkIfLoggedIn() async {
+    prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final password = prefs.getString('password');
+
+    if (username != null && password != null) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(
+            username: username,
+          ),
+        ),
+      );
+    }
+  }
+
   void _login() async {
     waitingResult(context: context);
+    final prefs = await SharedPreferences.getInstance();
 
     final response = await http.get(
         Uri.parse('https://63db0326e4158e02f3149c13.mockapi.io/api/users'));
@@ -148,12 +176,18 @@ class _LoginScreenState extends State<LoginScreen> {
             user['password'] == _passwordController.text) {
           // ignore: avoid_print
           print('Usuario existente');
+          prefs.setString('username', _userController.text);
+          prefs.setString('password', _passwordController.text);
+
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              MaterialPageRoute(
+                  builder: (context) => HomeScreen(
+                        username: _userController.text,
+                      )),
               (route) => false);
           return;
         }
