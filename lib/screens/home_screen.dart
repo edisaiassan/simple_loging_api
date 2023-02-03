@@ -35,8 +35,7 @@ class HomeScreen extends StatelessWidget {
         center: true,
         children: [
           TitleText('Bienvenido $username'),
-          Lottie.asset('assets/congratulations.json',
-              repeat: false, reverse: true),
+          Lottie.asset('assets/congratulations.json', repeat: false),
         ],
       ),
     );
