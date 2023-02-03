@@ -85,21 +85,26 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     if (_formKey.currentState!.validate()) {
       for (var user in responseJson) {
         if (user['email'] == _emailController.text) {
+          // ignore: avoid_print
           print('Usuario existente');
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
+          // ignore: use_build_context_synchronously
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) =>
                       ChangePasswordScreen(email: _emailController.text)));
-
           return;
         }
       }
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Este correo no existe o no se ha registrado')));
+      // ignore: avoid_print
       print('Este usuario no existe');
     }
+    // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 }

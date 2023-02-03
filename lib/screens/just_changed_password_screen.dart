@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_sigup/const/coments.dart';
 import 'package:login_sigup/const/sizes.dart';
-import 'package:login_sigup/screens/home_screen.dart';
+import 'package:login_sigup/screens/login_screen.dart';
 import 'package:login_sigup/widgets/buttons/button.dart';
 import 'package:login_sigup/widgets/lists/better_list_view.dart';
 import 'package:login_sigup/widgets/texts/subtitle_text.dart';
@@ -27,7 +27,7 @@ class JustChangedPasswrod extends StatelessWidget {
               onTap: () => Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
+                    builder: (context) => const LoginScreen(),
                   ),
                   (route) => false),
               text: confirmText,

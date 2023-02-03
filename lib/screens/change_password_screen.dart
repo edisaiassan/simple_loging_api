@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:login_sigup/screens/just_changed_password_screen.dart';
 import '../const/coments.dart';
-import '../const/data.dart';
 import '../const/reg_exp.dart';
 import '../const/sizes.dart';
 import '../widgets/buttons/button.dart';
@@ -38,14 +37,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.email),
-        actions: [
-          IconButton(
-            onPressed: () {
-              print(datos);
-            },
-            icon: Icon(Icons.print),
-          ),
-        ],
       ),
       body: SafeArea(
         child: Form(
@@ -155,9 +146,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             body: {'password': password},
           );
           if (response.statusCode == 200) {
+            // ignore: use_build_context_synchronously
             Navigator.pop(context);
 
+            // ignore: avoid_print
             print('Exito');
+            // ignore: use_build_context_synchronously
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -173,6 +167,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         }
       } else {
         // Error al obtener usuarios
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       }
     }
